@@ -1,0 +1,5 @@
+/node_modules/
+/logs/
+/access.log
+/application.log
+yarn.lock
