@@ -17,31 +17,31 @@ router.get('/', async function (req, res, next) {
 
 router.get('/home', async function (req, res, next) {
     res.render('index', {
-      name: 'FireCompass',
+      name: 'Groupon',
       currentTime:new Date(),
       filename: [ApplicationHelper.webpack_manifest_script(), ApplicationHelper.webpack_bundle_script('index')]
     });
 });
 
-router.get('/lobby/open/:id', async function (req, res, next) {
+router.get('/books/open/:id', async function (req, res, next) {
   res.render('index', {
-    name: 'FireCompass',
+    name: 'Groupon',
     currentTime:new Date(),
     filename: [ApplicationHelper.webpack_manifest_script(), ApplicationHelper.webpack_bundle_script('index')]
   });
 });
 
-router.get('/lobby/create/new', async function (req, res, next) {
+router.get('/books/edit/:id', async function (req, res, next) {
   res.render('index', {
-    name: 'FireCompass',
+    name: 'Groupon',
     currentTime:new Date(),
     filename: [ApplicationHelper.webpack_manifest_script(), ApplicationHelper.webpack_bundle_script('index')]
   });
 });
 
-router.get('/lottery/dashboard', async function (req, res, next) {
+router.get('/books/create/new', async function (req, res, next) {
   res.render('index', {
-    name: 'FireCompass',
+    name: 'Groupon',
     currentTime:new Date(),
     filename: [ApplicationHelper.webpack_manifest_script(), ApplicationHelper.webpack_bundle_script('index')]
   });

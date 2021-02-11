@@ -25,7 +25,7 @@ module.exports = class Service extends BaseService{
         }
         let book = BookModel.parse(bookJSON);
         BOOK_CONTAINER.addBook(book.getID(), book);
-        BOOK_CONTAINER.setModified(true);
+        return book.getID();
     }
 
     async getBooksDeatilsByID(bookID){
@@ -41,9 +41,8 @@ module.exports = class Service extends BaseService{
     }
 
     async deleteBooksByID(bookID){
-        console.log(bookID + " for delete");
+        console.log(bookID + " for Delete");
         BOOK_CONTAINER.removeBook(bookID);
-        BOOK_CONTAINER.setModified(true);
         return {
             status: true
         }
@@ -77,7 +76,6 @@ module.exports = class Service extends BaseService{
             book.setBookType(update_field_mapping['bookType']);
         }
 
-        BOOK_CONTAINER.setModified(true);
     }
 }
 

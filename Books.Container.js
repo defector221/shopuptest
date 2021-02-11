@@ -4,7 +4,6 @@ const fs = require('fs');
 const logger = require('./logger');
 const BookModel =  require('./model/Book');
 var bookMap =  new Map();
-var is_dirty = false;
 
 class BookContainer{
 
@@ -17,20 +16,17 @@ class BookContainer{
     }
 
     static removeBook(bookID){
-        bookMap.delete(bookID);
+        let book = bookMap.delete(bookID);
     }
 
     static save(){
-       if(!BookContainer.isModified()){
-            return;
-       }
        logger.info('saving books from workbook');
        var books =  BookContainer.toJSON();
-       BookContainer.setModified(false);
        fs.writeFileSync('./store/library.json', JSON.stringify(books, null, 2)); 
     }
 
     static parse(){
+        console.log('paring books')
         bookMap.clear();
         const rawdata = fs.readFileSync('./store/library.json', {encoding:'utf8', flag:'r'}); 
         let books = JSON.parse(rawdata);
@@ -46,14 +42,6 @@ class BookContainer{
             books.push(book.toJSON());
         }
         return books;
-    }
-
-    static setModified(mode){
-        is_dirty = mode;
-    }
-
-    static isModified(){
-        return is_dirty;
     }
 }
 

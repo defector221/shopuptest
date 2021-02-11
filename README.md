@@ -4,7 +4,7 @@ This README would normally document whatever steps are necessary to get your app
 
 ### What is this repository for? ###
 
-* This is Hacker Earth Repositary which is used to build Lottery Management System for Firecompass Examination
+* This is for Groupon test Assignment
 * Version 0.0.1
 
 ### Prerequisites ###

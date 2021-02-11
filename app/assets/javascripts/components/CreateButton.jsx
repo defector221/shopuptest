@@ -11,13 +11,13 @@ export default class CreateLobbyButton extends Component {
         return (
             <div className="tile">
                 <Card style={{ width: '18rem' }}>
-                    <Card.Img variant="top" src="/images/plus.jpg" />
+                    <Card.Img variant="top" src="/images/create_book.gif" />
                       <Card.Body>
                         <Card.Text>
-                            Create, Configure New Lobby    
+                            Create, Configure New Book    
                         </Card.Text>
-                        <Link to={`/lobby/create/new`}>
-                          <Button variant="primary" onClick={this.handleClick}>Create New Lobby</Button>
+                        <Link to={`/books/create/new`}>
+                          <Button variant="primary">Add New Book</Button>
                         </Link>
                     </Card.Body>
                 </Card>          

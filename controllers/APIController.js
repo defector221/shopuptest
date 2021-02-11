@@ -22,9 +22,10 @@ ApiRouters.post('/books/update/:id', bodyParser.json(), bodyParser.urlencoded({ 
 
 ApiRouters.post('/books/add_new', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
     var apiService = new APIService(request);
-    await apiService.addNewBookRecord();
+    var bookID  = await apiService.addNewBookRecord();
     response.json({
-        status:true
+        status:true,
+        bookID
     });
 });
 

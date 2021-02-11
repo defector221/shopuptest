@@ -1,68 +1,17 @@
 import React, { Component } from 'react'
 import Loader from "./Loader";
-import LobbyTile from "./LobbyTile";
+import BookTile from "./BookTile";
 import SearchBar from "./SearchBar";
-import CreateLobbyButton from "./CreateButton";
-import {Button} from 'react-bootstrap';
-import {Link} from "react-router-dom";
+import CreateBookButton from "./CreateButton";
+import {connect}  from 'react-redux';
 
-export default class Home extends Component {
+class Home extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            lobbies : [],
-            isLoading :true,
-            searchKey: ""
-        }
         this.searchByName = this.searchByName.bind(this);
-        this.handleStateChange = this.handleStateChange.bind(this);
-    }
-
-    componentDidMount(){
-        fetch('/api/lobby/all')
-        .then(res => res.json())
-        .then(lobbiesRes => {
-            this.setState({
-                lobbies: lobbiesRes.lobbies,
-                isLoading : false
-            })
-        })
-    }
-
-    handleStateChange(id, status){
-        var lobbies = this.state.lobbies;
-        var newLobbies = [];
-        lobbies.forEach(function(lobby){
-            if(lobby.id == id){
-                lobby.lobby_status = status;
-            }
-            newLobbies.push(lobby);
-        })
-        this.setState({
-            lobbies: newLobbies
-        });
-    }
-
-    renderLobbies(){
-        var lobbies = this.state.lobbies;
-        var self = this;
-        var list =  lobbies.filter(function(lobby){
-            return true;
-        }).map((lobby, i) => {
-           return (<LobbyTile info={lobby} key={lobby.id} handleStateChange={this.handleStateChange}/>)
-        });
-
-        return list.length >= 1 ? list : "No Record Found";
-    }
-
-    isAllowedToGo(){
-        var lobbies = this.state.lobbies;
-        for(let i=0; i< lobbies.length; i++){
-            if(lobbies[i].lobby_status){
-                return true;
-            }
+        this.state = {
+            searchKey : ""
         }
-        return false;
     }
 
     searchByName(searchKey) {
@@ -72,20 +21,16 @@ export default class Home extends Component {
     }
 
     filterAndRenderLobbies(){
-        var lobbies = this.state.lobbies;
-        var {searchKey} = this.state;
+        var books = this.props.books;
+        var {searchKey} = (this.state);
         var self = this;
-        var list =  lobbies.filter(function(lobby){
-            return self.state.searchKey.length >=1 ? lobby.lobby_name.indexOf(self.state.searchKey) != -1 : true;
-        }).map((lobby, i) => {
-           return (<LobbyTile info={lobby} key={lobby.id} handleStateChange={this.handleStateChange}/>)
+        var list =  books.filter(function(book){
+            return searchKey.length >=1 ? book.name.indexOf(searchKey) != -1 : true;
+        }).map((book, i) => {
+           return (<BookTile info={book} key={book.id} deleteBook = {this.props.deleteBook} />)
         });
 
-        return list.length >= 1 ? list : "No Search Result Found";
-    }
-
-    shouldComponentUpdate(prevstate){
-        return true;
+        return list.length >= 1 ? list : "";
     }
 
     render() {
@@ -95,16 +40,13 @@ export default class Home extends Component {
                     <img src="/images/banner.jpg" />
                 </div>
                 <div>
-                    {this.state.isLoading ? <Loader /> : (
-                        this.props.filter ? this.renderLobbies() : (<React.Fragment>
+                    {this.props.isLoading ? <Loader /> : (
+                        (<React.Fragment>
                             <div className="controls">
-                                <Link to={`/lottery/dashboard`}>
-                                  <Button disabled={!this.isAllowedToGo()} className="dashboard_btn">DashBoard</Button>
-                                </Link>
-                                <SearchBar keyword={this.state.searchKey} setKeyword={this.searchByName}/> 
+                                <SearchBar keyword={this.state.searchKey} setKeyword={this.searchByName}/>
                             </div>
                             <div>
-                                <CreateLobbyButton />
+                                <CreateBookButton />
                                 {this.filterAndRenderLobbies()}
                             </div>
                         </React.Fragment>
@@ -115,5 +57,35 @@ export default class Home extends Component {
         )
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        books: state.books,
+        isLoading: state.isLoading
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        deleteBook: (id) => {
+            deleteBookToServer(id, function(){
+                dispatch({type:'DELETE_BOOK', id});
+            })
+        }
+    }
+
+    function deleteBookToServer(id, success){
+        $.ajax({
+            url: `/api/v1/books/${id}`,
+            method: 'DELETE',
+            success: success,
+            error: function(error){
+                alert('Internal Server Error , Please try Again');
+            }
+        })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 
