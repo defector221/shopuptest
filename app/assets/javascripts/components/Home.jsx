@@ -91,7 +91,7 @@ export default class Home extends Component {
     render() {
         return (
             <React.Fragment>
-                <div className="candidate-container-flex">
+                <div className="books-container-flex">
                     <img src="/images/banner.jpg" />
                 </div>
                 <div>

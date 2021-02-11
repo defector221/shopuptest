@@ -47,6 +47,6 @@ router.get('/lottery/dashboard', async function (req, res, next) {
   });
 });
 
-router.use('/api', APIController);
+router.use('/api/v1', APIController);
 
 module.exports = router;

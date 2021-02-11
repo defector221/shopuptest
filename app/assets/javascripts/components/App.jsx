@@ -4,7 +4,6 @@ import styled from "styled-components";
 import Home from "./Home";
 import Lobby from "./Lobby";
 import CreateLobby from "./CreateLobby";
-import Dashboard from "./Dashboard";
 import ErrorBoundary from "./ErrorBoundary";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 
@@ -20,12 +19,12 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <div className="candidate-container">
+        <div className="books-container">
           <ErrorBoundary>
-            <div className="candidate-container-header">
+            <div className="books-container-header">
               <Header src="/images/logo.png"></Header>
             </div>
-            <div className="candidate-container-body">
+            <div className="books-container-body">
               <Route exact={true} path={'/'}>
                 <Home />
               </Route>

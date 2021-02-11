@@ -9,7 +9,6 @@ module.exports = class BaseService {
     preprocess(){
         if(this.request){
             this.props =  this.request.body
-            console.log(this.props, this.request.body)
         }
     }
 }

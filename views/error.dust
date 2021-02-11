@@ -10,7 +10,7 @@
               <pre class="error-stack-trace">{error.stack}</pre>
             {/error}
             <div class="btn-back"><a class="btn-primary" href="/home">Let's go home</a></div>
-            <div class="footer">© 2020 Hacker Earth team</div>
+            <div class="footer">© 2020 Groupon Team</div>
          </div>
       </div>
    </div>

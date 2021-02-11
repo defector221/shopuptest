@@ -9,7 +9,7 @@
   text-align: center;
 }
 
-.candidate-container {
+.books-container {
   display: block;
   position: absolute;
   width: 100%;
@@ -19,7 +19,7 @@
   justify-content: center;
 }
 
-.candidate-container-header{
+.books-container-header{
   height: 60px;
   width: 100%;
   background: #2f2f2f
@@ -81,7 +81,7 @@ img{
     cursor: pointer;
 }
 
-.candidate-container-flex img{
+.books-container-flex img{
   width: 100% !important;
   max-height: 406px !important;
 }

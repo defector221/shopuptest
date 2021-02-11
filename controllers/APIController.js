@@ -6,51 +6,40 @@ const APIService = require('../services/APIService');
 
 ApiRouters.use(cors());
 
-ApiRouters.get('/lobby/all', async function(request, response, next){
+ApiRouters.get('/books/all', async function(request, response, next){
     var apiService = new APIService(request);
     var responseObj = await apiService.getAll();
     response.json(responseObj);
 });
 
-ApiRouters.post('/lobby/create', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
+ApiRouters.post('/books/update/:id', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
     var apiService = new APIService(request);
-    await apiService.createNew(function(responseObj){
-        response.json(responseObj);
+    await apiService.updateBooks(request.params.id);
+    response.json({
+        status:true
     });
 });
 
-ApiRouters.post('/lobby/status', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
+ApiRouters.post('/books/add_new', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
     var apiService = new APIService(request);
-    await apiService.updateLobbyStatus(function(responseObj){
-        response.json(responseObj);
+    await apiService.addNewBookRecord();
+    response.json({
+        status:true
     });
 });
 
-ApiRouters.post('/lobby/fetch', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
+ApiRouters.delete('/books/:id', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
     var apiService = new APIService(request);
-    var responseObj = await apiService.getLobbyDeclarativeDeatilsByID();
+    await apiService.deleteBooksByID(request.params.id);
+    response.json({
+        status: true
+    })
+});
+
+ApiRouters.get('/books/:id', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
+    var apiService = new APIService(request);
+    var responseObj = await apiService.getBooksDeatilsByID(request.params.id);
     response.json(responseObj);
 });
-
-ApiRouters.post('/lobby/add_member', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
-    var apiService = new APIService(request);
-    await apiService.addMemberInLobby(function(responseObj){
-        response.json(responseObj);
-    });
-});
-
-ApiRouters.post('/lobby/contest/result', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
-    var apiService = new APIService(request);
-    await apiService.updateLobbyResult(function(responseObj){
-        response.json(responseObj);
-    });
-});
-
-ApiRouters.post('/lobby/stats/all', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
-    var apiService = new APIService(request);
-    var responseObj = await apiService.getAllStats();
-    response.json(responseObj);
-});
-
 
 module.exports = ApiRouters;
