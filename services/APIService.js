@@ -1,81 +1,91 @@
 const BaseService = require('./BaseService');
-const BookModel =  require('../model/Book');
-const BOOK_CONTAINER = require('../Books.Container');
+const RIDES_CONTAINER = require('../Rides.Container');
 
 module.exports = class Service extends BaseService{
     constructor(request){
         super(request);
     }
 
-    async getAll(){
-        return {
-            status: true,
-            books:BOOK_CONTAINER.toJSON()
-        }
-    }
-
-    async addNewBookRecord(){
-        let bookJSON = {
-            name: this.props.name || "",
-            description: this.props.description || "",
-            publishedDate: this.props.publishedDate || "",
-            author: this.props.author || "",
-            count: this.props.count || "" ,
-            bookType: this.props.bookType || ""
-        }
-        let book = BookModel.parse(bookJSON);
-        BOOK_CONTAINER.addBook(book.getID(), book);
-        return book.getID();
-    }
-
-    async getBooksDeatilsByID(bookID){
+    async addNewUser(){
         try{
+            let user = RIDES_CONTAINER.addUser(this.props.name, this.props.age, this.props.gender);
             return {
-                status: true,
-                books:BOOK_CONTAINER.getBook(bookID).toJSON()
+                user,
+                status: true
             }
-        }catch(err){}
-        return {
-            status: false
+        }catch(err){
+            return {
+                status: false,
+                message: err.message
+            }
         }
     }
 
-    async deleteBooksByID(bookID){
-        console.log(bookID + " for Delete");
-        BOOK_CONTAINER.removeBook(bookID);
-        return {
-            status: true
+    async addVeichle(){
+        try{
+            let veichle = RIDES_CONTAINER.addVehicle(this.props.name, this.props.vehicle_number, this.props.user_id);
+            return {
+                veichle,
+                status: true
+            }
+        }catch(err){
+            return {
+                status: false,
+                message: err.message
+            }
         }
     }
 
-    async updateBooks(bookID){
-        var book = BOOK_CONTAINER.getBook(bookID)
-        var update_field_mapping = this.props;
-
-        if(update_field_mapping['name']){
-            book.setName(update_field_mapping['name']);
+    async offerNewRide(){
+        try{
+            let ride = RIDES_CONTAINER.offerRide(this.props.id, this.props.name, this.props.origin, this.props.destination, this.props.availableSeats, this.props.vehicle);
+            return {
+                ride,
+                status: true
+            }
+        }catch(err){
+            return {
+                status: false,
+                message: err.message
+            }
         }
+        
+    }
 
-        if(update_field_mapping['description']){
-            book.setDescription(update_field_mapping['description']);
+    async selectRide(){
+        try{
+            let rides = RIDES_CONTAINER.offerRide(this.props.id, this.props.origin, this.props.destination, this.props.seats, this.props.vehicle, this.props.selection_strategy);
+            return rides
+        }catch(err){
+            return {
+                status: false,
+                message: err.message
+            }
         }
+    }
 
-        if(update_field_mapping['publishedDate']){
-            book.setPublishedDate(update_field_mapping['publishedDate']);
+    async endRide(){
+        try{
+            let rides = RIDES_CONTAINER.endRide(this.props.id);
+            return rides
+        }catch(err){
+            return {
+                status: false,
+                message: err.message
+            }
         }
+    }
 
-        if(update_field_mapping['author']){
-            book.setAuthor(update_field_mapping['author']);
+    async getSummary(){
+        try{
+            let rides = RIDES_CONTAINER.getSummary();
+            return rides
+        }catch(err){
+            return {
+                status: false,
+                message: err.message
+            }
         }
-
-        if(update_field_mapping['count']){
-            book.setCount(update_field_mapping['count']);
-        }
-
-        if(update_field_mapping['bookType']){
-            book.setBookType(update_field_mapping['bookType']);
-        }
-
     }
 }
 

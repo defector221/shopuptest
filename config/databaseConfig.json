@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "Shreya@2019",
-    "database": "lottery_firecompass",
+    "database": "shopup",
     "host": "localhost",
     "port": "3306",
     "dialect": "mysql",

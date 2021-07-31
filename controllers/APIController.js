@@ -6,40 +6,39 @@ const APIService = require('../services/APIService');
 
 ApiRouters.use(cors());
 
-ApiRouters.get('/books/all', async function(request, response, next){
+ApiRouters.post('/add_user', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
     var apiService = new APIService(request);
-    var responseObj = await apiService.getAll();
+    var responseObj = await apiService.addNewUser();
     response.json(responseObj);
 });
 
-ApiRouters.post('/books/update/:id', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
+ApiRouters.post('/add_vechile', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
     var apiService = new APIService(request);
-    await apiService.updateBooks(request.params.id);
-    response.json({
-        status:true
-    });
+    var responseObj =  await apiService.addVeichle()
+    response.json(responseObj);
 });
 
-ApiRouters.post('/books/add_new', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
+ApiRouters.post('/offer_ride', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
     var apiService = new APIService(request);
-    var bookID  = await apiService.addNewBookRecord();
-    response.json({
-        status:true,
-        bookID
-    });
+    var responseObj  = await apiService.offerNewRide();
+    response.json(responseObj);
 });
 
-ApiRouters.delete('/books/:id', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
+ApiRouters.post('/select_ride', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
     var apiService = new APIService(request);
-    await apiService.deleteBooksByID(request.params.id);
-    response.json({
-        status: true
-    })
+    var responseObj  = await apiService.selectRide();
+    response.json(responseObj);
 });
 
-ApiRouters.get('/books/:id', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
+ApiRouters.post('/end_ride', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
     var apiService = new APIService(request);
-    var responseObj = await apiService.getBooksDeatilsByID(request.params.id);
+    var responseObj  = await apiService.endRide();
+    response.json(responseObj);
+});
+
+ApiRouters.get('/summery', bodyParser.json(), bodyParser.urlencoded({ extended: false }), async function(request, response, next){
+    var apiService = new APIService(request);
+    var responseObj  = await apiService.getSummary();
     response.json(responseObj);
 });
 
